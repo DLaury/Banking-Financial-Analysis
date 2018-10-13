@@ -29,24 +29,7 @@ with open(electionData, 'r', newline = "") as csvfile:
         #adding votes to the specific key's vote total
         candidates[row[2]][0] += 1
 
-print(f"\nElection Results\n"
-        f"---------------------------\n"
-        f"Total Votes: {numVotes}\n"
-        f"---------------------------")
-for names in candidates:
-    percentage = round(candidates[names][0] / numVotes * 100,3)
-    candidates[names][1] = percentage
-    if candidates[names][0] > prev:
-        prev = candidates[names][0]
-        winner = names
-    print(f"{names}: {candidates[names][1]}% ({candidates[names][0]})")
-print(f"---------------------------\n"
-        f"Winner: {winner}\n"
-        f"---------------------------")
-
 #formatting output
-txtOut = open(os.path.join('PyPoll', 'Output', 'election_results.txt'), 'w')
-sys.stdout = txtOut
 print(f"\nElection Results\n"
         f"---------------------------\n"
         f"Total Votes: {numVotes}\n"
@@ -54,10 +37,10 @@ print(f"\nElection Results\n"
 
 #running through dictionary for anonymity
 for names in candidates:
-    
+
     #calculating percentage of votes and placing it in the key
-    percentage = round(candidates[names][0] / numVotes * 100,3)
-    candidates[names][1] = percentage
+    percentage = candidates[names][0] / numVotes * 100
+    candidates[names][1] = format(percentage,'.3f')
 
     #calculating winner
     if candidates[names][0] > prev:
@@ -71,4 +54,34 @@ for names in candidates:
 print(f"---------------------------\n"
         f"Winner: {winner}\n"
         f"---------------------------")
+
+#formatting output for text file
+txtOut = open(os.path.join('PyPoll', 'Output', 'election_results.txt'), 'w')
+sys.stdout = txtOut
+print(f"\nElection Results\n"
+        f"---------------------------\n"
+        f"Total Votes: {numVotes}\n"
+        f"---------------------------")
+
+#running through dictionary for anonymity
+for names in candidates:
+    
+    #calculating percentage of votes and placing it in the key
+    percentage = candidates[names][0] / numVotes * 100
+    candidates[names][1] = format(percentage, '.3f')
+
+    #calculating winner
+    if candidates[names][0] > prev:
+        prev = candidates[names][0]
+        winner = names
+    
+    #outputting each nominee, their percentage of the vote, and total number of votes
+    print(f"{names}: {candidates[names][1]}% ({candidates[names][0]})")
+
+#outputting the winner
+print(f"---------------------------\n"
+        f"Winner: {winner}\n"
+        f"---------------------------")
+
+#closing the .txt file I have open
 txtOut.close()
