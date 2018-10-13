@@ -49,8 +49,8 @@ with open(budgetData, 'r', newline = "") as csvfile:
         #set profLoss to the current row for later compairson
         profLoss = int(row[1])
 
-#calculating average and rounding the number to two decimal places
-aveChange = round(monthChangeAve / numMonths, 2)
+#calculating average (subtract one from monts because only 85 changes) and rounding the number to two decimal places
+aveChange = round(monthChangeAve / (numMonths - 1), 2)
 
 #formatting output
 output =(f"\nFinancial Analysis \n"
