@@ -1,6 +1,7 @@
 #calling modules
 import csv
 import os
+import sys
 
 #initializing variables
 numVotes = 0
@@ -28,7 +29,24 @@ with open(electionData, 'r', newline = "") as csvfile:
         #adding votes to the specific key's vote total
         candidates[row[2]][0] += 1
 
+print(f"\nElection Results\n"
+        f"---------------------------\n"
+        f"Total Votes: {numVotes}\n"
+        f"---------------------------")
+for names in candidates:
+    percentage = round(candidates[names][0] / numVotes * 100,3)
+    candidates[names][1] = percentage
+    if candidates[names][0] > prev:
+        prev = candidates[names][0]
+        winner = names
+    print(f"{names}: {candidates[names][1]}% ({candidates[names][0]})")
+print(f"---------------------------\n"
+        f"Winner: {winner}\n"
+        f"---------------------------")
+
 #formatting output
+txtOut = open(os.path.join('PyPoll', 'Output', 'election_results.txt'), 'w')
+sys.stdout = txtOut
 print(f"\nElection Results\n"
         f"---------------------------\n"
         f"Total Votes: {numVotes}\n"
@@ -53,3 +71,4 @@ for names in candidates:
 print(f"---------------------------\n"
         f"Winner: {winner}\n"
         f"---------------------------")
+txtOut.close()
