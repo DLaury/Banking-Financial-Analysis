@@ -5,6 +5,7 @@ import os
 #initializing variables
 numVotes = 0
 candidates = {}
+prev = 0
 
 #opening file election_data.csv and reading it
 electionData = os.path.join('PyPoll', 'Resources', 'election_data.csv')
@@ -20,18 +21,35 @@ with open(electionData, 'r', newline = "") as csvfile:
         #adding to numVotes and totChange for total values
         numVotes += 1
         
+        #adding candidates as keys and initializing a list of values for that key
         if row[2] not in candidates:
-            candidates[row[2]] = 0
+            candidates[row[2]] = [0,""]
 
-        candidates[row[2]] += 1        
+        #adding votes to the specific key's vote total
+        candidates[row[2]][0] += 1
 
 #formatting output
-output = (f"\nElection Results\n"
+print(f"\nElection Results\n"
         f"---------------------------\n"
         f"Total Votes: {numVotes}\n"
-        f"---------------------------\n"
-        f"")
+        f"---------------------------")
 
-#printing output
-print(output)
-print(candidates)
+#running through dictionary for anonymity
+for names in candidates:
+    
+    #calculating percentage of votes and placing it in the key
+    percentage = round(candidates[names][0] / numVotes * 100,3)
+    candidates[names][1] = percentage
+
+    #calculating winner
+    if candidates[names][0] > prev:
+        prev = candidates[names][0]
+        winner = names
+    
+    #outputting each nominee, their percentage of the vote, and total number of votes
+    print(f"{names}: {candidates[names][1]}% ({candidates[names][0]})")
+
+#outputting the winner
+print(f"---------------------------\n"
+        f"Winner: {winner}\n"
+        f"---------------------------")
