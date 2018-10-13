@@ -56,7 +56,7 @@ aveChange = round(monthChangeAve / numMonths, 2)
 output =(f"\nFinancial Analysis \n"
         f"------------------------- \n"
         f"Total Months: {numMonths} \n"
-        f"Total: ${monthChange} \n"
+        f"Total: ${totChange} \n"
         f"Average Change: ${aveChange} \n"
         f"Greatest Increase in Profits: {highChangeName} (${highChange}) \n"
         f"Greatest Decrease in Profits: {lowChangeName} (${lowChange})")
