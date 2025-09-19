@@ -1,15 +1,8 @@
-'''"""
-This script analyzes financial data from a CSV file to calculate key metrics
-such as total months, total profit/loss, average change, greatest increase in profits,
-and greatest decrease in profits. The results are then printed to the console and
-written to a text file.
-"""
-
-# calling modules
+#calling modules
 import csv
 import os
 
-# initializing variables
+#initializing variables
 numMonths = 0
 totChange = 0
 monthChangeAve = 0
@@ -19,66 +12,58 @@ profLoss = 0
 highChange = 0
 lowChange = 0
 
-# opening file budget_data.csv and reading it
+#opening file budget_data.csv and reading it
 budgetData = os.path.join('PyBank', 'Resources', 'budget_data.csv')
-with open(budgetData, 'r', newline="") as csvfile:
-    readData = csv.reader(csvfile, delimiter=',')
-
-    # excluding header
+with open(budgetData, 'r', newline = "") as csvfile:
+    readData = csv.reader(csvfile,delimiter = ',')
+    
+    #excluding header
     header = next(readData)
 
-    # iterating over whole document
+    #iterating over whole document
     for row in readData:
-
-        # adding to numMonths and totChange for total values
+        
+        #adding to numMonths and totChange for total values
         numMonths += 1
         totChange += int(row[1])
 
-        # skipping first row
+        #skipping first row
         if profLoss != 0:
 
-            # saving value for greatest changes
+            #saving value for greatest changes
             monthChange = int(row[1]) - profLoss
-
-            # saving value for average change
+            
+            #saving value for average change
             monthChangeAve += int(row[1]) - profLoss
 
-            # finding highest profit change and name
+            #finding highest profit change and name
             if monthChange > highChange:
                 highChangeName = row[0]
                 highChange = monthChange
-
-            # finding highest profit drop and name
+            
+            #finding highest profit drop and name
             if monthChange < lowChange:
                 lowChangeName = row[0]
                 lowChange = monthChange
 
-        # set profLoss to the current row for later compairson
+        #set profLoss to the current row for later compairson
         profLoss = int(row[1])
 
-# calculating average (subtract one from monts because only 85 changes) and rounding the number to two decimal places
+#calculating average (subtract one from monts because only 85 changes) and rounding the number to two decimal places
 aveChange = round(monthChangeAve / (numMonths - 1), 2)
 
-# formatting output
-output = (f"
-Financial Analysis 
-"
-          f"------------------------- 
-"
-          f"Total Months: {numMonths} 
-"
-          f"Total: ${totChange} 
-"
-          f"Average Change: ${aveChange} 
-"
-          f"Greatest Increase in Profits: {highChangeName} (${highChange}) 
-"
-          f"Greatest Decrease in Profits: {lowChangeName} (${lowChange})")
+#formatting output
+output =(f"\nFinancial Analysis \n"
+        f"------------------------- \n"
+        f"Total Months: {numMonths} \n"
+        f"Total: ${totChange} \n"
+        f"Average Change: ${aveChange} \n"
+        f"Greatest Increase in Profits: {highChangeName} (${highChange}) \n"
+        f"Greatest Decrease in Profits: {lowChangeName} (${lowChange})")
 
-# printing output
+#printing output
 print(output)
 
-# writing output to text file
+#writing output to text file
 with open(os.path.join('PyBank', 'Output', 'financial_analysis.txt'), 'w') as txtfile:
     txtfile.write(output)
-''
