@@ -67,3 +67,7 @@ print(output)
 #writing output to text file
 with open(os.path.join('PyBank', 'Output', 'financial_analysis.txt'), 'w') as txtfile:
     txtfile.write(output)
+
+def multiply_by_two(number):
+  result = number * 2
+  print(result)
